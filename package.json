@@ -1,0 +1,23 @@
+{
+  "name": "qa-challenge",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "cypress run --browser chrome",
+    "test:open": "cypress open --e2e",
+    "test:headed": "cypress run --browser chrome --headed",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check"
+  },
+  "engines": {
+    "node": "24.x"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.6",
+    "cypress": "16.1.0",
+    "prettier": "3.9.8",
+    "typescript": "7.0.2"
+  }
+}
