@@ -21,17 +21,10 @@ export class TextBoxPage {
   }
 
   fillForm(data: TextBoxData): void {
-    cy.get(this.selectors.fullName).clear();
-    cy.get(this.selectors.fullName).type(data.fullName);
-
-    cy.get(this.selectors.email).clear();
-    cy.get(this.selectors.email).type(data.email);
-
-    cy.get(this.selectors.currentAddress).clear();
-    cy.get(this.selectors.currentAddress).type(data.currentAddress);
-
-    cy.get(this.selectors.permanentAddress).clear();
-    cy.get(this.selectors.permanentAddress).type(data.permanentAddress);
+    this.fillField(this.selectors.fullName, data.fullName);
+    this.fillField(this.selectors.email, data.email);
+    this.fillField(this.selectors.currentAddress, data.currentAddress);
+    this.fillField(this.selectors.permanentAddress, data.permanentAddress);
   }
 
   submit(): void {
@@ -42,5 +35,13 @@ export class TextBoxPage {
     field: keyof TextBoxData,
   ): Cypress.Chainable<JQuery<HTMLElement>> {
     return cy.get(this.selectors.output).find(this.selectors.results[field]);
+  }
+
+  private fillField(selector: string, value: string): void {
+    cy.get(selector).clear();
+
+    if (value !== '') {
+      cy.get(selector).type(value);
+    }
   }
 }
