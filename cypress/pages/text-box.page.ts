@@ -8,6 +8,8 @@ export class TextBoxPage {
     permanentAddress: 'textarea#permanentAddress',
     submit: '#submit',
     output: '#output',
+    submittedFields: 'p',
+    submittedNameBoldElements: 'b',
     results: {
       fullName: '#name',
       email: '#email',
@@ -27,14 +29,36 @@ export class TextBoxPage {
     this.fillField(this.selectors.permanentAddress, data.permanentAddress);
   }
 
+  fillEmail(email: string): void {
+    this.fillField(this.selectors.email, email);
+  }
+
   submit(): void {
     cy.get(this.selectors.submit).click();
+  }
+
+  getEmailInput(): Cypress.Chainable<JQuery<HTMLInputElement>> {
+    return cy.get<HTMLInputElement>(this.selectors.email);
+  }
+
+  getCurrentAddressInput(): Cypress.Chainable<JQuery<HTMLTextAreaElement>> {
+    return cy.get<HTMLTextAreaElement>(this.selectors.currentAddress);
+  }
+
+  getSubmittedFields(): Cypress.Chainable<JQuery<HTMLParagraphElement>> {
+    return cy.get(this.selectors.output).find(this.selectors.submittedFields);
   }
 
   getSubmittedField(
     field: keyof TextBoxData,
   ): Cypress.Chainable<JQuery<HTMLElement>> {
     return cy.get(this.selectors.output).find(this.selectors.results[field]);
+  }
+
+  getSubmittedNameBoldElements(): Cypress.Chainable<JQuery<HTMLElement>> {
+    return this.getSubmittedField('fullName').find(
+      this.selectors.submittedNameBoldElements,
+    );
   }
 
   private fillField(selector: string, value: string): void {
