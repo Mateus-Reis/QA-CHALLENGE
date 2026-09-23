@@ -16,7 +16,9 @@
   },
   "devDependencies": {
     "@types/node": "24.13.6",
+    "axe-core": "4.13.0",
     "cypress": "16.1.0",
+    "cypress-real-events": "1.15.1",
     "prettier": "3.9.8",
     "typescript": "7.0.2"
   }
