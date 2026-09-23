@@ -2,6 +2,7 @@ import type { TextBoxData } from '../data/text-box';
 
 export class TextBoxPage {
   private readonly selectors = {
+    form: '#userForm',
     fullName: '#userName',
     email: '#userEmail',
     currentAddress: 'textarea#currentAddress',
@@ -20,6 +21,10 @@ export class TextBoxPage {
 
   visit(): void {
     cy.visit('/text-box');
+  }
+
+  getForm(): Cypress.Chainable<JQuery<HTMLFormElement>> {
+    return cy.get<HTMLFormElement>(this.selectors.form);
   }
 
   fillForm(data: TextBoxData): void {
