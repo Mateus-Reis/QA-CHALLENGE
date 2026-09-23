@@ -8,45 +8,17 @@ import {
 } from '../data/text-box';
 import type { TextBoxData } from '../data/text-box';
 import { TextBoxPage } from '../pages/text-box.page';
-
-function normalizeWhitespace(value: string): string {
-  return value.replace(/\s+/g, ' ').trim();
-}
-
-function expectSubmittedValues(
-  textBoxPage: TextBoxPage,
-  data: TextBoxData,
-): void {
-  const fields: (keyof TextBoxData)[] = [
-    'fullName',
-    'email',
-    'currentAddress',
-    'permanentAddress',
-  ];
-
-  textBoxPage.getSubmittedFields().should('have.length', fields.length);
-
-  for (const field of fields) {
-    textBoxPage
-      .getSubmittedField(field)
-      .should('have.length', 1)
-      .and('be.visible')
-      .and(($result) => {
-        const text = $result.text();
-        const value = normalizeWhitespace(text.slice(text.indexOf(':') + 1));
-
-        expect(value, `${field} submitted value`).to.equal(
-          normalizeWhitespace(data[field]),
-        );
-      });
-  }
-}
+import { expectSubmittedValues } from '../support/assertions/text-box';
 
 describe('Text Box', () => {
-  it('displays the submitted name, email and addresses', () => {
-    const textBoxPage = new TextBoxPage();
+  let textBoxPage: TextBoxPage;
 
+  beforeEach(() => {
+    textBoxPage = new TextBoxPage();
     textBoxPage.visit();
+  });
+
+  it('displays the submitted name, email and addresses', () => {
     textBoxPage.fillForm(validTextBoxData);
     textBoxPage.submit();
 
@@ -54,9 +26,6 @@ describe('Text Box', () => {
   });
 
   it('rejects an invalid email without displaying submitted values', () => {
-    const textBoxPage = new TextBoxPage();
-
-    textBoxPage.visit();
     textBoxPage.fillForm(invalidEmailTextBoxData);
     textBoxPage.submit();
 
@@ -68,9 +37,6 @@ describe('Text Box', () => {
   });
 
   it('submits successfully after correcting an invalid email', () => {
-    const textBoxPage = new TextBoxPage();
-
-    textBoxPage.visit();
     textBoxPage.fillForm(invalidEmailTextBoxData);
     textBoxPage.submit();
 
@@ -88,9 +54,6 @@ describe('Text Box', () => {
   });
 
   it('allows submitting empty optional fields', () => {
-    const textBoxPage = new TextBoxPage();
-
-    textBoxPage.visit();
     textBoxPage.fillForm(emptyTextBoxData);
     textBoxPage.submit();
 
@@ -102,9 +65,6 @@ describe('Text Box', () => {
   });
 
   it('replaces submitted values and removes them after clearing the form', () => {
-    const textBoxPage = new TextBoxPage();
-
-    textBoxPage.visit();
     textBoxPage.fillForm(validTextBoxData);
     textBoxPage.submit();
 
@@ -126,13 +86,11 @@ describe('Text Box', () => {
   });
 
   it('updates a previous submission after correcting an invalid email', () => {
-    const textBoxPage = new TextBoxPage();
     const correctedData: TextBoxData = {
       ...validTextBoxData,
       email: updatedTextBoxData.email,
     };
 
-    textBoxPage.visit();
     textBoxPage.fillForm(validTextBoxData);
     textBoxPage.submit();
 
@@ -156,31 +114,21 @@ describe('Text Box', () => {
       .and('have.value', correctedData.email);
   });
 
-  const contentCases = [
-    {
-      title:
-        'preserves accented characters, apostrophes and multiline addresses',
-      data: unicodeTextBoxData,
-    },
-    {
-      title: 'renders HTML-like input as plain text',
-      data: markupTextBoxData,
-    },
-  ] as const;
+  it('preserves accented characters, apostrophes and multiline addresses', () => {
+    textBoxPage.fillForm(unicodeTextBoxData);
+    textBoxPage.submit();
 
-  for (const { title, data } of contentCases) {
-    it(title, () => {
-      const textBoxPage = new TextBoxPage();
+    expectSubmittedValues(textBoxPage, unicodeTextBoxData);
+    textBoxPage
+      .getCurrentAddressInput()
+      .should('have.value', unicodeTextBoxData.currentAddress);
+  });
 
-      textBoxPage.visit();
-      textBoxPage.fillForm(data);
-      textBoxPage.submit();
+  it('renders HTML-like input as plain text', () => {
+    textBoxPage.fillForm(markupTextBoxData);
+    textBoxPage.submit();
 
-      expectSubmittedValues(textBoxPage, data);
-      textBoxPage
-        .getCurrentAddressInput()
-        .should('have.value', data.currentAddress);
-      textBoxPage.getSubmittedNameBoldElements().should('not.exist');
-    });
-  }
+    expectSubmittedValues(textBoxPage, markupTextBoxData);
+    textBoxPage.getSubmittedNameBoldElements().should('not.exist');
+  });
 });
