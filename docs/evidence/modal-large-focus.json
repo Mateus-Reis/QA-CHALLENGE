@@ -1,0 +1,11 @@
+{
+  "title": "Modal Dialogs accessibility large modal keeps forward Tab navigation inside the dialog with visible focus",
+  "hasFocus": true,
+  "active": {
+    "tag": "BODY",
+    "id": "",
+    "role": null
+  },
+  "focusInsideDialog": false,
+  "dialog": "<div role=\"dialog\" aria-modal=\"true\" class=\"fade modal show\" tabindex=\"-1\" aria-labelledby=\"example-modal-sizes-title-lg\" style=\"display: block;\"><div class=\"modal-dialog modal-lg\"><div class=\"modal-content\"><div class=\"modal-header\"><div class=\"modal-title h4\" id=\"example-modal-sizes-title-lg\">Large Modal</div><button type=\"button\" class=\"btn-close\" aria-label=\"Close\"></button></div><div class=\"modal-body\"><p class=\"\">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p></div><div class=\"modal-footer\"><button type=\"button\" id=\"closeLargeModal\" class=\"btn btn-primary\">Close</button></div></div></div></div>"
+}
