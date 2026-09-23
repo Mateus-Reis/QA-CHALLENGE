@@ -37,6 +37,18 @@ export class TextBoxPage {
     cy.get(this.selectors.submit).click();
   }
 
+  getInput(
+    field: keyof TextBoxData,
+  ): Cypress.Chainable<JQuery<HTMLInputElement | HTMLTextAreaElement>> {
+    return cy.get<HTMLInputElement | HTMLTextAreaElement>(
+      this.selectors[field],
+    );
+  }
+
+  getSubmitButton(): Cypress.Chainable<JQuery<HTMLButtonElement>> {
+    return cy.get<HTMLButtonElement>(this.selectors.submit);
+  }
+
   getEmailInput(): Cypress.Chainable<JQuery<HTMLInputElement>> {
     return cy.get<HTMLInputElement>(this.selectors.email);
   }

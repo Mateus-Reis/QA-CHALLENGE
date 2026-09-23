@@ -5,6 +5,13 @@ export interface TextBoxData {
   readonly permanentAddress: string;
 }
 
+export const textBoxFields: readonly (keyof TextBoxData)[] = [
+  'fullName',
+  'email',
+  'currentAddress',
+  'permanentAddress',
+];
+
 export const validTextBoxData: TextBoxData = {
   fullName: 'Mateus Reis',
   email: 'mateus.reis@example.com',
