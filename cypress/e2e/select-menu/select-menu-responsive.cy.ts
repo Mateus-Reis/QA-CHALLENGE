@@ -1,6 +1,6 @@
-import { multipleSelections } from '../data/select-menu';
-import { SelectMenuPage } from '../pages/select-menu.page';
-import { expectElementInView } from '../support/assertions/layout';
+import { multipleSelections } from '../../data/select-menu';
+import { SelectMenuPage } from '../../pages/select-menu.page';
+import { expectElementInView } from '../../support/assertions/layout';
 
 const viewports = [
   { width: 1280, height: 720 },

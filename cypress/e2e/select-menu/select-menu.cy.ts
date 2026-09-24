@@ -2,8 +2,8 @@ import {
   groupedSelections,
   multipleSelections,
   nativeColors,
-} from '../data/select-menu';
-import { SelectMenuPage } from '../pages/select-menu.page';
+} from '../../data/select-menu';
+import { SelectMenuPage } from '../../pages/select-menu.page';
 
 describe('Select Menu', () => {
   let selectMenuPage: SelectMenuPage;

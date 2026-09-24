@@ -1,7 +1,7 @@
-import { textBoxFields, validTextBoxData } from '../data/text-box';
-import { TextBoxPage } from '../pages/text-box.page';
-import { expectElementInView } from '../support/assertions/layout';
-import { expectSubmittedValues } from '../support/assertions/text-box';
+import { textBoxFields, validTextBoxData } from '../../data/text-box';
+import { TextBoxPage } from '../../pages/text-box.page';
+import { expectElementInView } from '../../support/assertions/layout';
+import { expectSubmittedValues } from '../../support/assertions/text-box';
 
 const viewports = [
   { width: 1280, height: 720 },

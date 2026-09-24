@@ -1,4 +1,4 @@
-import { ModalDialogsPage } from '../pages/modal-dialogs.page';
+import { ModalDialogsPage } from '../../pages/modal-dialogs.page';
 
 describe('Modal Dialogs', () => {
   let modalDialogsPage: ModalDialogsPage;

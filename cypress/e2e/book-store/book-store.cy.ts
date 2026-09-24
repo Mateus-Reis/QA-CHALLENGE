@@ -1,5 +1,5 @@
-import { bookStoreSearch } from '../data/book-store';
-import { BookStorePage } from '../pages/book-store.page';
+import { bookStoreSearch } from '../../data/book-store';
+import { BookStorePage } from '../../pages/book-store.page';
 
 describe('Book Store', () => {
   it('filters to the matching title and author and restores books after clearing the search', () => {

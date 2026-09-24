@@ -1,6 +1,6 @@
-import { ModalDialogsPage } from '../pages/modal-dialogs.page';
-import { checkAccessibility } from '../support/assertions/accessibility';
-import { expectFocusShadow } from '../support/assertions/focus';
+import { ModalDialogsPage } from '../../pages/modal-dialogs.page';
+import { checkAccessibility } from '../../support/assertions/accessibility';
+import { expectFocusShadow } from '../../support/assertions/focus';
 
 function expectFocusInsideDialog($dialog: JQuery<HTMLElement>): void {
   const dialog = $dialog[0];
