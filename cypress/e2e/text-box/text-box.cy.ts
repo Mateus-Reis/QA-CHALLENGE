@@ -5,10 +5,10 @@ import {
   unicodeTextBoxData,
   updatedTextBoxData,
   validTextBoxData,
-} from '../data/text-box';
-import type { TextBoxData } from '../data/text-box';
-import { TextBoxPage } from '../pages/text-box.page';
-import { expectSubmittedValues } from '../support/assertions/text-box';
+} from '../../data/text-box';
+import type { TextBoxData } from '../../data/text-box';
+import { TextBoxPage } from '../../pages/text-box.page';
+import { expectSubmittedValues } from '../../support/assertions/text-box';
 
 describe('Text Box', () => {
   let textBoxPage: TextBoxPage;

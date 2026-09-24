@@ -1,5 +1,5 @@
-import { validPracticeFormData } from '../data/practice-form';
-import { PracticeFormPage } from '../pages/practice-form.page';
+import { validPracticeFormData } from '../../data/practice-form';
+import { PracticeFormPage } from '../../pages/practice-form.page';
 
 describe('Practice Form', () => {
   it('confirms the submitted name, email, gender and mobile number', () => {

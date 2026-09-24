@@ -1,5 +1,5 @@
-import { listSelections } from '../data/selectable';
-import { SelectablePage } from '../pages/selectable.page';
+import { listSelections } from '../../data/selectable';
+import { SelectablePage } from '../../pages/selectable.page';
 
 describe('Selectable', () => {
   let selectablePage: SelectablePage;

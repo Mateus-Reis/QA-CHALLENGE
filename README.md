@@ -54,13 +54,19 @@ The recorded full runs contain seven failing accessibility tests. Those assertio
 Run one spec:
 
 ```bash
-npm test -- --spec "cypress/e2e/text-box.cy.ts"
+npm test -- --spec "cypress/e2e/text-box/text-box.cy.ts"
+```
+
+Run every Text Box spec:
+
+```bash
+npm test -- --spec "cypress/e2e/text-box/*.cy.ts"
 ```
 
 Run only the accessibility specs during an investigation:
 
 ```bash
-npm test -- --spec "cypress/e2e/*-accessibility.cy.ts"
+npm test -- --spec "cypress/e2e/**/*-accessibility.cy.ts"
 ```
 
 Spec filtering limits the coverage executed; use `npm test` for the complete results. Additional options follow the [Cypress CLI](https://docs.cypress.io/app/references/command-line).
@@ -90,6 +96,18 @@ Timeouts use the Cypress defaults. Queries and assertions retry until their time
 | `cypress/support/e2e.ts`        | Loads native keyboard event support                                         |
 | `docs/evidence/`                | Retained reports and investigation captures referenced by the documentation |
 | `.github/workflows/cypress.yml` | CI installation, checks, test execution, and artifact upload                |
+
+Specs are grouped by page:
+
+```text
+cypress/e2e/
+  book-store/
+  modal-dialogs/
+  practice-form/
+  select-menu/
+  selectable/
+  text-box/
+```
 
 Specs express expected behavior; page objects handle how to interact with each page. Tests start from a fresh visit instead of depending on previous tests. Small assertion helpers keep repeated checks consistent. Typed data modules serve the current inputs without a separate fixture layer.
 

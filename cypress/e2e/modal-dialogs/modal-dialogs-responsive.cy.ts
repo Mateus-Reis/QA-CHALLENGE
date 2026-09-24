@@ -1,5 +1,5 @@
-import { ModalDialogsPage } from '../pages/modal-dialogs.page';
-import { expectElementInView } from '../support/assertions/layout';
+import { ModalDialogsPage } from '../../pages/modal-dialogs.page';
+import { expectElementInView } from '../../support/assertions/layout';
 
 const viewports = [
   { width: 1280, height: 720 },

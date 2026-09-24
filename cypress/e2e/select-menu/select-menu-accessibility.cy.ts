@@ -1,7 +1,7 @@
-import { groupedSelections, multipleSelections } from '../data/select-menu';
-import { SelectMenuPage } from '../pages/select-menu.page';
-import { checkAccessibility } from '../support/assertions/accessibility';
-import { expectFocusShadow } from '../support/assertions/focus';
+import { groupedSelections, multipleSelections } from '../../data/select-menu';
+import { SelectMenuPage } from '../../pages/select-menu.page';
+import { checkAccessibility } from '../../support/assertions/accessibility';
+import { expectFocusShadow } from '../../support/assertions/focus';
 
 describe('Select Menu accessibility', () => {
   let selectMenuPage: SelectMenuPage;

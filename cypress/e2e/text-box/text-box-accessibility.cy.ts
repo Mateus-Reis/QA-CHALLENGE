@@ -1,8 +1,8 @@
-import { textBoxFields, validTextBoxData } from '../data/text-box';
-import { TextBoxPage } from '../pages/text-box.page';
-import { checkAccessibility } from '../support/assertions/accessibility';
-import { expectFocusShadow } from '../support/assertions/focus';
-import { expectSubmittedValues } from '../support/assertions/text-box';
+import { textBoxFields, validTextBoxData } from '../../data/text-box';
+import { TextBoxPage } from '../../pages/text-box.page';
+import { checkAccessibility } from '../../support/assertions/accessibility';
+import { expectFocusShadow } from '../../support/assertions/focus';
+import { expectSubmittedValues } from '../../support/assertions/text-box';
 
 describe('Text Box accessibility', () => {
   let textBoxPage: TextBoxPage;

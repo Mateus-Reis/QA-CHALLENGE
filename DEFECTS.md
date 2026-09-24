@@ -21,7 +21,7 @@ The [GitHub Actions run on 2026-09-24](https://github.com/Mateus-Reis/QA-CHALLEN
 
 **Actual:** The four labels have no `for` attribute, do not wrap the controls, and are not referenced by `aria-labelledby`. The controls have no `aria-label`. The first three controls have placeholders that satisfy the automatic naming rule, but Permanent Address has no naming fallback. Axe reports the `label` violation on that textarea both before and after submission, with an engine impact of `critical`.
 
-**Evidence:** [Captured form and label associations](docs/evidence/text-box-labels.json). The label-association test and two axe tests in `cypress/e2e/text-box-accessibility.cy.ts` fail. The two axe failures reproduce the same defect in different states; they are not separate defects. Run `npm test -- --spec cypress/e2e/text-box-accessibility.cy.ts` to regenerate the detailed axe reports and failure screenshots.
+**Evidence:** [Captured form and label associations](docs/evidence/text-box-labels.json). The label-association test and two axe tests in `cypress/e2e/text-box/text-box-accessibility.cy.ts` fail. The two axe failures reproduce the same defect in different states; they are not separate defects. Run `npm test -- --spec cypress/e2e/text-box/text-box-accessibility.cy.ts` to regenerate the detailed axe reports and failure screenshots.
 
 ## TB-02: Invalid email feedback provides no textual explanation
 
@@ -58,7 +58,7 @@ The [GitHub Actions run on 2026-09-24](https://github.com/Mateus-Reis/QA-CHALLEN
 
 **Actual:** The three custom combobox inputs fail the `label` rule. Old Style Select Menu and Standard multi select fail `select-name`. Visible captions are not programmatically associated with the corresponding controls. The same five elements are reported in both scanned states; axe rates these rules `critical`.
 
-**Evidence:** [Open-state axe report](docs/evidence/select-menu-open.json) and [selected-state axe report](docs/evidence/select-menu-selected.json). Generated IDs in the reports identify the captured DOM, not the locators used by the tests. Run `npm test -- --spec cypress/e2e/select-menu-accessibility.cy.ts` to reproduce the two failing scans.
+**Evidence:** [Open-state axe report](docs/evidence/select-menu-open.json) and [selected-state axe report](docs/evidence/select-menu-selected.json). Generated IDs in the reports identify the captured DOM, not the locators used by the tests. Run `npm test -- --spec cypress/e2e/select-menu/select-menu-accessibility.cy.ts` to reproduce the two failing scans.
 
 ## SM-02: Group headings have insufficient text contrast
 
@@ -87,7 +87,7 @@ The [GitHub Actions run on 2026-09-24](https://github.com/Mateus-Reis/QA-CHALLEN
 
 **Steps to reproduce in Cypress**
 
-1. Run `npm test -- --spec cypress/e2e/modal-dialogs-accessibility.cy.ts` in Chrome.
+1. Run `npm test -- --spec cypress/e2e/modal-dialogs/modal-dialogs-accessibility.cy.ts` in Chrome.
 2. Open either modal and establish focus on the header Close button.
 3. Press Tab to reach the footer Close button, then Tab again.
 4. Check whether the active element remains inside the dialog.
