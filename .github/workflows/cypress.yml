@@ -36,11 +36,23 @@ jobs:
       - name: Check formatting
         run: npm run format:check
 
-      - name: Run Cypress in Chrome
+      - name: Run main suite
+        id: main
         shell: bash
         run: |
           mkdir -p reports
-          npm test 2>&1 | tee reports/cypress-run.log
+          npm test 2>&1 | tee reports/main-run.log
+
+      - name: Run accessibility audit
+        id: accessibility
+        if: ${{ !cancelled() && steps.main.outcome != 'skipped' }}
+        continue-on-error: true
+        shell: bash
+        run: npm run test:a11y 2>&1 | tee reports/accessibility-run.log
+
+      - name: Compare accessibility results with known defects
+        if: ${{ !cancelled() && steps.accessibility.outcome != 'skipped' }}
+        run: npm run test:a11y:baseline
 
       - name: Upload test evidence
         if: always()

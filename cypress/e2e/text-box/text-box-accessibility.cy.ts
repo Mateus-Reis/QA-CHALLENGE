@@ -1,6 +1,5 @@
 import { textBoxFields, validTextBoxData } from '../../data/text-box';
 import { TextBoxPage } from '../../pages/text-box.page';
-import { checkAccessibility } from '../../support/assertions/accessibility';
 import { expectFocusShadow } from '../../support/assertions/focus';
 import { expectSubmittedValues } from '../../support/assertions/text-box';
 
@@ -20,7 +19,7 @@ describe('Text Box accessibility', () => {
       permanentAddress: 'Permanent Address',
     };
 
-    textBoxPage.getEmailInput().should('have.attr', 'type', 'email');
+    textBoxPage.getInput('email').should('have.attr', 'type', 'email');
     textBoxPage.getSubmitButton().should('have.text', 'Submit');
 
     for (const field of textBoxFields) {
@@ -82,7 +81,7 @@ describe('Text Box accessibility', () => {
     cy.realPress(['Shift', 'Tab']);
     textBoxPage.getInput('currentAddress').should('have.focus');
     cy.realPress(['Shift', 'Tab']);
-    textBoxPage.getEmailInput().should('have.focus');
+    textBoxPage.getInput('email').should('have.focus');
     cy.realPress(['Shift', 'Tab']);
     textBoxPage.getInput('fullName').should('have.focus');
   });
@@ -91,7 +90,7 @@ describe('Text Box accessibility', () => {
     textBoxPage
       .getForm()
       .should('be.visible')
-      .then(($form) => checkAccessibility($form[0], 'text-box-initial'));
+      .checkAccessibility('text-box-initial');
   });
 
   it('has no WCAG 2.1 A or AA axe violations after submission', () => {
@@ -102,6 +101,6 @@ describe('Text Box accessibility', () => {
     textBoxPage
       .getForm()
       .should('be.visible')
-      .then(($form) => checkAccessibility($form[0], 'text-box-submitted'));
+      .checkAccessibility('text-box-submitted');
   });
 });

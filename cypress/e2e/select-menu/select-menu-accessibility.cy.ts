@@ -1,6 +1,5 @@
 import { groupedSelections, multipleSelections } from '../../data/select-menu';
 import { SelectMenuPage } from '../../pages/select-menu.page';
-import { checkAccessibility } from '../../support/assertions/accessibility';
 import { expectFocusShadow } from '../../support/assertions/focus';
 
 describe('Select Menu accessibility', () => {
@@ -33,6 +32,8 @@ describe('Select Menu accessibility', () => {
 
     selectMenuPage.getListbox().should('be.visible');
 
+    // react-select announces the focused option through its live region on
+    // Apple platforms and through aria-activedescendant everywhere else.
     if (Cypress.platform === 'darwin') {
       selectMenuPage
         .getFocusedAnnouncement('grouped')
@@ -108,11 +109,7 @@ describe('Select Menu accessibility', () => {
     selectMenuPage.openCustomMenu('grouped');
 
     selectMenuPage.getListbox().should('be.visible');
-    selectMenuPage
-      .getContainer()
-      .then(($container) =>
-        checkAccessibility($container[0], 'select-menu-open'),
-      );
+    selectMenuPage.getContainer().checkAccessibility('select-menu-open');
   });
 
   it('has no WCAG 2.1 A or AA axe violations after selecting values', () => {
@@ -128,10 +125,6 @@ describe('Select Menu accessibility', () => {
       .should('have.text', groupedSelections.first);
     selectMenuPage.getChips().should('have.length', 2);
     selectMenuPage.getListbox().should('not.exist');
-    selectMenuPage
-      .getContainer()
-      .then(($container) =>
-        checkAccessibility($container[0], 'select-menu-selected'),
-      );
+    selectMenuPage.getContainer().checkAccessibility('select-menu-selected');
   });
 });

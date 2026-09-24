@@ -1,0 +1,198 @@
+
+> qa-challenge@1.0.0 test:a11y
+> cypress run --browser chrome --env suite=accessibility
+
+
+================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        16.1.0                                                                         │
+  │ Browser:        Chrome 153 (headless)                                                          │
+  │ Node Version:   v24.15.0 (/Users/mateusreis/.nvm/versions/node/v24.15.0/bin/node)              │
+  │ Specs:          3 found (modal-dialogs/modal-dialogs-accessibility.cy.ts, select-menu/select-m │
+  │                 enu-accessibility.cy.ts, text-box/text-box-accessibility.cy.ts)                │
+  │ Searched:       cypress/e2e/**/*-accessibility.cy.ts                                           │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  modal-dialogs/modal-dialogs-accessibility.cy.ts                                 (1 of 3)
+
+
+  Modal Dialogs accessibility
+    small modal
+      ✓ moves focus into the dialog and returns it to the opener after Escape (868ms)
+      - keeps forward Tab navigation inside the dialog with visible focus
+      ✓ keeps reverse Shift+Tab navigation inside the dialog (590ms)
+      ✓ has no WCAG 2.1 A or AA axe violations while open (560ms)
+    large modal
+      ✓ moves focus into the dialog and returns it to the opener after Escape (629ms)
+      - keeps forward Tab navigation inside the dialog with visible focus
+      ✓ keeps reverse Shift+Tab navigation inside the dialog (576ms)
+      ✓ has no WCAG 2.1 A or AA axe violations while open (507ms)
+
+
+  6 passing (4s)
+  2 pending
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        8                                                                                │
+  │ Passing:      6                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      2                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     3 seconds                                                                        │
+  │ Spec Ran:     modal-dialogs/modal-dialogs-accessibility.cy.ts                                  │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  select-menu/select-menu-accessibility.cy.ts                                     (2 of 3)
+
+
+  Select Menu accessibility
+    ✓ selects a grouped option with the keyboard and preserves it when Escape dismisses the list (530ms)
+    ✓ moves between controls with Tab and Shift+Tab and displays custom focus indicators (655ms)
+    1) has no WCAG 2.1 A or AA axe violations with a grouped combobox open
+    2) has no WCAG 2.1 A or AA axe violations after selecting values
+
+
+  2 passing (2s)
+  2 failing
+
+  1) Select Menu accessibility
+       has no WCAG 2.1 A or AA axe violations with a grouped combobox open:
+     AssertionError: accessibility violations: color-contrast (2 elements), label (3 elements), select-name (2 elements): expected [ Array(3) ] to be empty
+      at Context.eval (webpack://qa-challenge/./cypress/support/assertions/accessibility.ts:40:19)
+      at getRet (https://demoqa.com/__cypress/runner/cypress_runner.js:120748:20)
+      at tryCatcher (https://demoqa.com/__cypress/runner/cypress_runner.js:1780:23)
+
+  2) Select Menu accessibility
+       has no WCAG 2.1 A or AA axe violations after selecting values:
+     AssertionError: accessibility violations: label (3 elements), select-name (2 elements): expected [ Array(2) ] to be empty
+      at Context.eval (webpack://qa-challenge/./cypress/support/assertions/accessibility.ts:40:19)
+      at getRet (https://demoqa.com/__cypress/runner/cypress_runner.js:120748:20)
+      at tryCatcher (https://demoqa.com/__cypress/runner/cypress_runner.js:1780:23)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        4                                                                                │
+  │ Passing:      2                                                                                │
+  │ Failing:      2                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  2                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     2 seconds                                                                        │
+  │ Spec Ran:     select-menu/select-menu-accessibility.cy.ts                                      │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  cypress/screenshots/accessibility/select-menu/select-menu-accessibility.cy.ts/Se     (1280x633)
+     lect Menu accessibility -- has no WCAG 2.1 A or AA axe violations with a grouped               
+      combobox open (failed).png                                                                    
+  -  cypress/screenshots/accessibility/select-menu/select-menu-accessibility.cy.ts/Se     (1280x633)
+     lect Menu accessibility -- has no WCAG 2.1 A or AA axe violations after selectin               
+     g values (failed).png                                                                          
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  text-box/text-box-accessibility.cy.ts                                           (3 of 3)
+
+
+  Text Box accessibility
+    1) associates visible labels with the form fields
+    ✓ submits using Tab and Enter with a focus indicator on each control (4043ms)
+    ✓ moves backwards through the form with Shift+Tab (328ms)
+    2) has no WCAG 2.1 A or AA axe violations in the initial form
+    3) has no WCAG 2.1 A or AA axe violations after submission
+
+
+  2 passing (14s)
+  3 failing
+
+  1) Text Box accessibility
+       associates visible labels with the form fields:
+     AssertionError: Timed out retrying after 8000ms: fullName associated labels: expected [] not to be empty
+      at Context.eval (webpack://qa-challenge/./cypress/e2e/text-box/text-box-accessibility.cy.ts:35:73)
+      at <unknown> (https://demoqa.com/__cypress/runner/cypress_runner.js:120158:17)
+      at tryCatcher (https://demoqa.com/__cypress/runner/cypress_runner.js:1780:23)
+
+  2) Text Box accessibility
+       has no WCAG 2.1 A or AA axe violations in the initial form:
+     AssertionError: accessibility violations: label (1 elements): expected [ Array(1) ] to be empty
+      at Context.eval (webpack://qa-challenge/./cypress/support/assertions/accessibility.ts:40:19)
+      at getRet (https://demoqa.com/__cypress/runner/cypress_runner.js:120748:20)
+      at tryCatcher (https://demoqa.com/__cypress/runner/cypress_runner.js:1780:23)
+
+  3) Text Box accessibility
+       has no WCAG 2.1 A or AA axe violations after submission:
+     AssertionError: accessibility violations: label (1 elements): expected [ Array(1) ] to be empty
+      at Context.eval (webpack://qa-challenge/./cypress/support/assertions/accessibility.ts:40:19)
+      at getRet (https://demoqa.com/__cypress/runner/cypress_runner.js:120748:20)
+      at tryCatcher (https://demoqa.com/__cypress/runner/cypress_runner.js:1780:23)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        5                                                                                │
+  │ Passing:      2                                                                                │
+  │ Failing:      3                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  3                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     14 seconds                                                                       │
+  │ Spec Ran:     text-box/text-box-accessibility.cy.ts                                            │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  cypress/screenshots/accessibility/text-box/text-box-accessibility.cy.ts/Text Box     (1280x633)
+      accessibility -- associates visible labels with the form fields (failed).png                  
+  -  cypress/screenshots/accessibility/text-box/text-box-accessibility.cy.ts/Text Box     (1280x633)
+      accessibility -- has no WCAG 2.1 A or AA axe violations in the initial form (fa               
+     iled).png                                                                                      
+  -  cypress/screenshots/accessibility/text-box/text-box-accessibility.cy.ts/Text Box     (1280x633)
+      accessibility -- has no WCAG 2.1 A or AA axe violations after submission (faile               
+     d).png                                                                                         
+
+
+================================================================================
+
+  (Run Finished)
+
+
+       Spec                                              Tests  Passing  Failing  Pending  Skipped  
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ ✔  modal-dialogs/modal-dialogs-accessi      00:03        8        6        -        2        - │
+  │    bility.cy.ts                                                                                │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✖  select-menu/select-menu-accessibili      00:02        4        2        2        -        - │
+  │    ty.cy.ts                                                                                    │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✖  text-box/text-box-accessibility.cy.      00:14        5        2        3        -        - │
+  │    ts                                                                                          │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    ✖  2 of 3 failed (67%)                      00:20       17       10        5        2        -  
+

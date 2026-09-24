@@ -2,28 +2,28 @@
 
 ## CI and feedback
 
-The included GitHub Actions workflow is an optional addition to the challenge. It installs the locked dependencies, checks TypeScript and formatting, and runs the full suite in Chrome on pull requests, pushes to `main`, or manual dispatch. The job retains the test exit status and uploads available reports and failure screenshots even when tests fail. Known application defects remain failures; the workflow does not bypass them.
+The included GitHub Actions workflow installs the locked dependencies, checks TypeScript and formatting, runs the main suite as the gating step, and then runs the accessibility audit. The audit step itself does not block, but a baseline check fails the job when the audit's failures differ from the known defects, so accessibility regressions still block merges. Reports, logs, and failure screenshots from both suites are uploaded even when tests fail. When a defect is fixed, remove it from the baseline; once none remain, make the audit a gating step.
 
-The [GitHub Actions run on 2026-09-24](https://github.com/Mateus-Reis/QA-CHALLENGE/actions/runs/35977214462) executed all 40 tests in Chrome on Linux: 33 passed and seven failed, matching the local outcomes. TypeScript, formatting, and evidence upload passed. The two modal focus failures still require investigation outside the Cypress runner. Compare subsequent hosted runs with the retained local evidence and investigate new differences. Use the environment metadata in `reports/results.json` when investigating differences from local runs. Pin the browser and Node patch versions if changes in the hosted image make comparisons unreliable.
+For a larger suite, run a fast smoke subset on every pull request and the full regression on merge to `main` and on a nightly schedule, since the public site can change without a commit in this repository. Use the environment metadata in the results JSON to compare local and hosted runs, and pin the browser and Node versions if hosted image updates make comparisons unreliable.
 
 ## Suite organization
 
-Keep functional, responsive, and accessibility specs separate while sharing small page objects and assertions. Run all selected coverage for this small suite. If execution time grows, use spec patterns to create a fast functional smoke job and broader scheduled regression jobs; preserve the complete results across jobs instead of treating omitted coverage as passed.
+Suites are selected with a Cypress env flag (`--env suite=accessibility`), so specs stay grouped by page while the main suite and the audit run separately. When a smoke subset is needed, add tags with `@cypress/grep` instead of new folders, and keep functional, responsive, and accessibility concerns in separate specs.
 
-Introduce tags only when there is a concrete selection need. Parallelize independent specs after measuring their duration, balance the slowest files, and give each job a distinct artifact name. Do not share page state or mutable test data between jobs.
+Parallelize by spec file after measuring durations, balance the slowest files across machines, and give each job a distinct artifact name. Do not share page state or mutable test data between jobs.
 
 ## Test data and maintainability
 
 Keep deterministic, typed data modules for the current client-side examples. Add fixtures for file inputs or response samples when a test needs them. For an application with persistent state, create isolated data through a supported API and clean it up after use. Store credentials in environment-specific secrets, never in committed data or reports.
 
-Prefer stable IDs and scoped roles. Ask application developers for explicit test attributes where generated classes or positional selectors are the only choices. Review page models when the application changes, and extract helpers only when multiple scenarios need the same behavior.
+Prefer stable IDs and scoped roles. Ask application developers for explicit test attributes where generated classes or positional selectors are the only option, as with React Select. Review page objects when the application changes, and extract helpers or custom commands only when several scenarios need the same behavior.
 
 ## Accessibility and reliability
 
-Supplement axe scans with screen-reader testing, focus visibility and contrast assessment, and error-announcement checks. Desktop viewport resizing does not replace real mobile devices or touch input. Expand the browser matrix according to product usage rather than duplicating every case immediately.
+Supplement axe scans with screen-reader testing, focus visibility and contrast review, and error-announcement checks. Viewport resizing does not replace real mobile devices or touch input. Expand the browser matrix according to product usage rather than duplicating every case.
 
-Investigate intermittent failures before enabling retries. Distinguish application defects, automation errors, and environment problems; retain the first attempt if retries are later added. A public demonstration site can change independently of this repository, so record the observation date and recheck reported defects.
+Keep third-party hosts blocked unless a test targets them. Treat any test that passes only on retry as flaky: record it, investigate it, and do not raise the retry count to hide it. Quarantine a test only with a linked defect, as done for MD-01, and review quarantined tests on a fixed schedule.
 
 ## Metrics
 
-Track executed, passed, failed, pending, and skipped tests by coverage area; failure causes; total and slowest-spec duration; first-attempt versus retry outcomes; defect recurrence; and time to investigate failures. Compare trends against the same code and configuration. A pass rate alone does not describe coverage or accessibility conformance.
+Track executed, passed, failed, pending, and skipped tests per suite; first-attempt pass rate and tests that needed a retry; failure causes (application defect, automation error, environment); total and slowest-spec duration; the number and age of quarantined tests; defect recurrence; and time to investigate failures. A pass rate alone does not describe coverage or accessibility conformance.

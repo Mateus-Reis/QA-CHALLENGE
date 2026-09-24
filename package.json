@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "test": "cypress run --browser chrome",
+    "test:a11y": "cypress run --browser chrome --env suite=accessibility",
+    "test:a11y:baseline": "node scripts/check-accessibility-baseline.ts",
     "test:open": "cypress open --e2e",
     "test:headed": "cypress run --browser chrome --headed",
     "typecheck": "tsc --noEmit",

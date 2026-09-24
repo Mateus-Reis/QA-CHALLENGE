@@ -2,7 +2,7 @@
 
 Observed on 2026-09-23 against the public DemoQA application using Chrome on macOS. These findings describe the observed version of the site. Severity describes user impact; priority is a proposed order for remediation.
 
-The [GitHub Actions run on 2026-09-24](https://github.com/Mateus-Reis/QA-CHALLENGE/actions/runs/35977214462/job/107560415196) reproduced the same seven automated failures in Chrome on Linux. The invalid-email feedback finding and standalone focus investigation below remain based on the local evidence.
+The accessibility audit (`npm run test:a11y`) reproduces TB-01, SM-01, and SM-02 as five failing tests; a [GitHub Actions run on 2026-09-24](https://github.com/Mateus-Reis/QA-CHALLENGE/actions/runs/35977214462/job/107560415196), made before the suites were split, reproduced them in Chrome on Linux. The MD-01 tests are quarantined. The invalid-email feedback finding and standalone focus investigation below are based on local evidence.
 
 ## TB-01: Text Box labels are not associated with their fields
 
@@ -21,7 +21,7 @@ The [GitHub Actions run on 2026-09-24](https://github.com/Mateus-Reis/QA-CHALLEN
 
 **Actual:** The four labels have no `for` attribute, do not wrap the controls, and are not referenced by `aria-labelledby`. The controls have no `aria-label`. The first three controls have placeholders that satisfy the automatic naming rule, but Permanent Address has no naming fallback. Axe reports the `label` violation on that textarea both before and after submission, with an engine impact of `critical`.
 
-**Evidence:** [Captured form and label associations](docs/evidence/text-box-labels.json). The label-association test and two axe tests in `cypress/e2e/text-box/text-box-accessibility.cy.ts` fail. The two axe failures reproduce the same defect in different states; they are not separate defects. Run `npm test -- --spec cypress/e2e/text-box/text-box-accessibility.cy.ts` to regenerate the detailed axe reports and failure screenshots.
+**Evidence:** [Captured form and label associations](docs/evidence/text-box-labels.json). The label-association test and two axe tests in the accessibility audit (`cypress/e2e/text-box/text-box-accessibility.cy.ts`) fail. The two axe failures reproduce the same defect in different states; they are not separate defects. Run `npm run test:a11y -- --spec cypress/e2e/text-box/text-box-accessibility.cy.ts` to regenerate the detailed axe reports and failure screenshots.
 
 ## TB-02: Invalid email feedback provides no textual explanation
 
@@ -58,7 +58,7 @@ The [GitHub Actions run on 2026-09-24](https://github.com/Mateus-Reis/QA-CHALLEN
 
 **Actual:** The three custom combobox inputs fail the `label` rule. Old Style Select Menu and Standard multi select fail `select-name`. Visible captions are not programmatically associated with the corresponding controls. The same five elements are reported in both scanned states; axe rates these rules `critical`.
 
-**Evidence:** [Open-state axe report](docs/evidence/select-menu-open.json) and [selected-state axe report](docs/evidence/select-menu-selected.json). Generated IDs in the reports identify the captured DOM, not the locators used by the tests. Run `npm test -- --spec cypress/e2e/select-menu/select-menu-accessibility.cy.ts` to reproduce the two failing scans.
+**Evidence:** [Open-state axe report](docs/evidence/select-menu-open.json) and [selected-state axe report](docs/evidence/select-menu-selected.json). Generated IDs in the reports identify the captured DOM, not the locators used by the tests. Run `npm run test:a11y -- --spec cypress/e2e/select-menu/select-menu-accessibility.cy.ts` to reproduce the two failing scans.
 
 ## SM-02: Group headings have insufficient text contrast
 
@@ -81,24 +81,24 @@ The [GitHub Actions run on 2026-09-24](https://github.com/Mateus-Reis/QA-CHALLEN
 ## MD-01: Forward focus containment fails in the Cypress runner
 
 **URL:** <https://demoqa.com/modal-dialogs>  
-**Status:** Observed failure; application versus runner influence remains unresolved.  
+**Status:** Observed failure; application versus runner influence remains unresolved. The two tests are quarantined.  
 **Provisional severity:** Medium. Keyboard focus leaves the open dialog instead of cycling through its controls.  
 **Priority:** P2. Isolate the environment-dependent behavior before selecting an application or automation fix.
 
 **Steps to reproduce in Cypress**
 
-1. Run `npm test -- --spec cypress/e2e/modal-dialogs/modal-dialogs-accessibility.cy.ts` in Chrome.
+1. In `cypress/e2e/modal-dialogs/modal-dialogs-accessibility.cy.ts`, change the forward Tab test from `it.skip` to `it`, then run `npm run test:a11y -- --spec cypress/e2e/modal-dialogs/modal-dialogs-accessibility.cy.ts` in Chrome.
 2. Open either modal and establish focus on the header Close button.
 3. Press Tab to reach the footer Close button, then Tab again.
 4. Check whether the active element remains inside the dialog.
 
 **Expected:** Focus stays within the open modal. The [WAI-ARIA modal-dialog interaction pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/) describes wrapping keyboard navigation within the dialog.
 
-**Actual in the runner:** Both sizes leave `activeElement` on `BODY`, with `document.hasFocus()` true and the dialog still open. The assertion fails after the standard four-second retry window. A comparison using Cypress's native `cy.press` reproduced the same result as `cy.realPress`, so the observation is not specific to one keyboard command.
+**Actual in the runner:** Both sizes leave `activeElement` on `BODY`, with `document.hasFocus()` true and the dialog still open. The assertion keeps failing for the whole retry window. A comparison using Cypress's native `cy.press` reproduced the same result as `cy.realPress`, so the observation is not specific to one keyboard command. Blocking the ad hosts did not change the result.
 
 **Investigation boundary:** In a separate Chrome session outside Cypress, the forward sequence recovered to the dialog container during a condition-based wait. A reverse sequence in Large Modal instead remained on an advertising iframe outside the dialog. These are different observations, not identical standalone reproduction of the runner failure. Do not label this as an axe violation or a confirmed application-only cause. Initial focus and focus return after Escape passed separately.
 
-**Evidence:** [Small modal runner state](docs/evidence/modal-small-focus.json), [large modal runner state](docs/evidence/modal-large-focus.json), and [standalone comparison](docs/evidence/modal-standalone-focus.json). The failing tests remain enabled so the discrepancy is visible.
+**Evidence:** [Small modal runner state](docs/evidence/modal-small-focus.json), [large modal runner state](docs/evidence/modal-large-focus.json), and [standalone comparison](docs/evidence/modal-standalone-focus.json). The tests are skipped rather than left failing, so an unexplained runner discrepancy is not reported as a confirmed defect; remove the skip once the cause is isolated.
 
 ## Automated checks requiring manual review
 

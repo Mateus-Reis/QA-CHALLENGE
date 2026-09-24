@@ -1,24 +1,24 @@
 # QA Automation Challenge
 
-End-to-end tests for [DemoQA](https://demoqa.com/) using Cypress and TypeScript. The suite covers forms, selections, and dialogs, with responsive and accessibility checks on the main flows.
+End-to-end tests for [DemoQA](https://demoqa.com/) using Cypress and TypeScript. The suite covers forms, selections, and dialogs, with responsive checks on the main flows and a separate accessibility audit.
 
 ## Coverage
 
 | Page          | Main scenarios                                                                                                                       |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | Text Box      | Submission, email validation and recovery, empty fields, replacing submitted values, Unicode and multiline input, and HTML-like text |
+| Practice Form | Submission of personal details, hobbies, and address; required-field validation; invalid mobile numbers (data-driven)                |
 | Select Menu   | Replacing grouped selections, removing and restoring multiselect options, and changing native selections                             |
 | Modal Dialogs | Small and large dialog content, dismissal controls, Escape, and reopening                                                            |
-| Practice Form | Submission and confirmation of name, email, gender, and mobile number                                                                |
 | Selectable    | Selecting two list items and removing one while retaining the other                                                                  |
 | Book Store    | Filtering by title, checking the matching author, and clearing the search                                                            |
 
-Text Box, Select Menu, and Modal Dialogs also have keyboard and scoped axe checks at the default desktop viewport. Their responsive specs exercise the flows at 1280 x 720 and 390 x 844. The other three pages have focused functional coverage.
+Text Box, Select Menu, and Modal Dialogs also have responsive specs at 1280 x 720 and 390 x 844, plus keyboard and scoped axe checks in the accessibility audit.
 
 ## Prerequisites
 
-- Git, Node.js 24.x, and npm. The Node version is also defined in [.nvmrc](.nvmrc).
-- Google Chrome installed locally.
+- Node.js 24.x and npm. The version is also defined in [.nvmrc](.nvmrc).
+- Google Chrome.
 - Internet access to install dependencies and reach DemoQA.
 
 On Linux, install the system dependencies listed in the [Cypress installation guide](https://docs.cypress.io/app/get-started/install-cypress#System-requirements).
@@ -31,153 +31,89 @@ cd QA-CHALLENGE
 npm ci
 ```
 
-If you use nvm, run `nvm use` before installing dependencies. `npm ci` installs the versions recorded in the lockfile and downloads the Cypress binary. The tests use the public website; no local application server, account, or credentials are required.
+`npm ci` installs the locked dependencies and downloads the Cypress binary. No local server, account, or credentials are required.
 
 ## Run tests
 
-Run the full suite in headless Chrome:
+Run the main suite (functional and responsive specs) in headless Chrome:
 
 ```bash
 npm test
 ```
 
-The recorded full runs contain seven failing accessibility tests. Those assertions remain enabled, so the full command and CI job fail while the reported behavior persists. See [Results and known failures](#results-and-known-failures) before interpreting the exit status.
+| Command                      | Purpose                                                                    |
+| ---------------------------- | -------------------------------------------------------------------------- |
+| `npm test`                   | Main suite, headless. Expected to pass                                     |
+| `npm run test:headed`        | Main suite with a visible Chrome window                                    |
+| `npm run test:a11y`          | Accessibility audit, headless. Expected to fail on the known defects below |
+| `npm run test:a11y:baseline` | Compare the last audit with the known defects                              |
+| `npm run test:open`          | Interactive Cypress runner with every spec, including accessibility        |
+| `npm run typecheck`          | TypeScript check                                                           |
+| `npm run format:check`       | Prettier check (`npm run format` applies it)                               |
 
-| Command                | Purpose                                                       |
-| ---------------------- | ------------------------------------------------------------- |
-| `npm run test:headed`  | Run the full suite with a visible Chrome window               |
-| `npm run test:open`    | Open the interactive Cypress runner; choose Chrome and a spec |
-| `npm run typecheck`    | Check TypeScript without emitting files                       |
-| `npm run format:check` | Check formatting with Prettier                                |
-| `npm run format`       | Apply Prettier formatting                                     |
-
-Run one spec:
+Run a single spec or folder by passing `--spec` to the matching suite:
 
 ```bash
 npm test -- --spec "cypress/e2e/text-box/text-box.cy.ts"
+npm run test:a11y -- --spec "cypress/e2e/text-box/text-box-accessibility.cy.ts"
 ```
-
-Run every Text Box spec:
-
-```bash
-npm test -- --spec "cypress/e2e/text-box/*.cy.ts"
-```
-
-Run only the accessibility specs during an investigation:
-
-```bash
-npm test -- --spec "cypress/e2e/**/*-accessibility.cy.ts"
-```
-
-Spec filtering limits the coverage executed; use `npm test` for the complete results. Additional options follow the [Cypress CLI](https://docs.cypress.io/app/references/command-line).
 
 ## Configuration
 
-[cypress.config.ts](cypress.config.ts) defines the shared settings:
+[cypress.config.ts](cypress.config.ts) holds the shared settings:
 
-| Setting                        | Value                                  |
-| ------------------------------ | -------------------------------------- |
-| Base URL                       | `https://demoqa.com`                   |
-| Spec pattern                   | `cypress/e2e/**/*.cy.ts`               |
-| Support file                   | `cypress/support/e2e.ts`               |
-| Default viewport               | 1280 x 720                             |
-| Additional responsive viewport | 390 x 844, set by the responsive specs |
+| Setting           | Value                                                                                   |
+| ----------------- | --------------------------------------------------------------------------------------- |
+| Base URL          | `https://demoqa.com`                                                                    |
+| Command timeout   | 8 seconds (`defaultCommandTimeout`)                                                     |
+| Page load timeout | 60 seconds (`pageLoadTimeout`)                                                          |
+| Retries           | 1 for the main suite in `cypress run`; 0 for the audit and in `cypress open`            |
+| Blocked hosts     | Google ad and ad-verification hosts ([why](SUMMARY.md#flakiness-and-how-it-is-handled)) |
+| Default viewport  | 1280 x 720; the responsive specs also use 390 x 844                                     |
+| Suite selection   | `--env suite=accessibility` runs only `*-accessibility.cy.ts`                           |
 
-Timeouts use the Cypress defaults. Queries and assertions retry until their timeout; whole-test retries are not enabled, and the suite uses no fixed-duration waits. No `.env` or `cypress.env.json` file is required. Configuration can be overridden through the [Cypress configuration options](https://docs.cypress.io/app/references/configuration#Overriding-Options), including `--config` on the command line.
+The suite uses no fixed-duration waits. Options can be overridden with `--config`, as described in the [Cypress configuration docs](https://docs.cypress.io/app/references/configuration#Overriding-Options), except the spec pattern, screenshot folder, and audit retries, which the suite selection sets.
 
 ## Project structure
 
-| Location                        | Responsibility                                                              |
-| ------------------------------- | --------------------------------------------------------------------------- |
-| `cypress/e2e/`                  | Functional, responsive, and accessibility specs with outcome assertions     |
-| `cypress/pages/`                | Page objects with centralized selectors and reusable interactions           |
-| `cypress/data/`                 | Typed test data shared by the specs                                         |
-| `cypress/support/assertions/`   | Shared checks for submitted values, layout, focus, and accessibility        |
-| `cypress/support/e2e.ts`        | Loads native keyboard event support                                         |
-| `docs/evidence/`                | Retained reports and investigation captures referenced by the documentation |
-| `.github/workflows/cypress.yml` | CI installation, checks, test execution, and artifact upload                |
+| Location                        | Responsibility                                                       |
+| ------------------------------- | -------------------------------------------------------------------- |
+| `cypress/e2e/<page>/`           | Functional, responsive, and accessibility specs, grouped by page     |
+| `cypress/pages/`                | Page objects with centralized selectors and reusable interactions    |
+| `cypress/data/`                 | Typed test data shared by the specs                                  |
+| `cypress/support/commands.ts`   | Custom commands: `cy.fillField` and `cy.checkAccessibility`          |
+| `cypress/support/assertions/`   | Shared checks for submitted values, layout, focus, and accessibility |
+| `docs/evidence/`                | Run output, defect evidence, and investigation captures              |
+| `scripts/`                      | Baseline check that compares audit failures with the known defects   |
+| `.github/workflows/cypress.yml` | CI: install, checks, both suites, and artifact upload                |
 
-Specs are grouped by page:
+Specs describe expected behavior; page objects own selectors and interactions. Every test starts from a fresh visit.
 
-```text
-cypress/e2e/
-  book-store/
-  modal-dialogs/
-  practice-form/
-  select-menu/
-  selectable/
-  text-box/
-```
+## Results
 
-Specs express expected behavior; page objects handle how to interact with each page. Tests start from a fresh visit instead of depending on previous tests. Small assertion helpers keep repeated checks consistent. Typed data modules serve the current inputs without a separate fixture layer.
+Recorded locally on September 24, 2026 in Chrome 153 on macOS:
 
-## Results and known failures
+| Suite               | Tests | Passed | Failed | Pending |
+| ------------------- | ----: | -----: | -----: | ------: |
+| Main (`npm test`)   |    26 |     26 |      0 |       0 |
+| Accessibility audit |    17 |     10 |      5 |       2 |
 
-The recorded local runs on September 23, 2026 and the [CI run on September 24, 2026](https://github.com/Mateus-Reis/QA-CHALLENGE/actions/runs/35977214462) produced the same totals:
+The main suite passed in two consecutive runs without retries. The five accessibility failures are real defects (TB-01, SM-01, SM-02); the two pending tests are quarantined while MD-01 is investigated. Details are in [DEFECTS.md](DEFECTS.md), and the terminal output of the last runs is in [main-suite-run.txt](docs/evidence/main-suite-run.txt) and [accessibility-suite-run.txt](docs/evidence/accessibility-suite-run.txt).
 
-| Coverage      |  Tests | Passed | Failed |
-| ------------- | -----: | -----: | -----: |
-| Functional    |     17 |     17 |      0 |
-| Responsive    |      6 |      6 |      0 |
-| Accessibility |     17 |     10 |      7 |
-| **Total**     | **40** | **33** |  **7** |
+[SUMMARY.md](SUMMARY.md) covers the approach, flakiness handling, and trade-offs. [IMPROVEMENTS.md](IMPROVEMENTS.md) has recommendations for CI, suite organization, test data, and metrics.
 
-No tests were pending or skipped. TypeScript and formatting checks passed. The seven failures are:
+## Reports
 
-- Three Text Box checks for label associations and accessible names.
-- Two Select Menu scans for accessible names and text contrast.
-- Two Modal Dialogs checks where forward Tab navigation leaves the dialog in Cypress. The influence of the application versus the runner remains unresolved.
+| Output                               | Created by                                                    |
+| ------------------------------------ | ------------------------------------------------------------- |
+| Terminal                             | Every run: per-spec results and the final summary table       |
+| `reports/main-results.json`          | `npm test` and `npm run test:headed`: totals, tests, attempts |
+| `reports/accessibility-results.json` | `npm run test:a11y`: totals, tests, attempts                  |
+| `reports/accessibility/*.json`       | Each axe scan, written before its assertion                   |
+| `cypress/screenshots/<suite>/`       | Failed attempts during `cypress run`                          |
 
-These are observed results, not a guarantee for future runs against the public site. [SUMMARY.md](SUMMARY.md) records the approach, results, and limits. [DEFECTS.md](DEFECTS.md) contains reproduction steps, expected and actual behavior, severity, priority, and evidence. It also documents the standalone focus comparison and intermittent focus behavior involving an advertising iframe.
-
-## View reports and evidence
-
-The terminal prints per-spec results and the final totals. Expand a failed command in the interactive runner to inspect its assertion and page state.
-
-| Output                         | When it is created                                                                                               |
-| ------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
-| `reports/results.json`         | After a `cypress run`, including both `npm test` and `npm run test:headed`; contains totals and per-spec results |
-| `reports/accessibility/*.json` | When each axe scan completes, before its assertion; includes violations and checks needing manual review         |
-| `cypress/screenshots/`         | Automatically on test failures during `cypress run`                                                              |
-| `reports/cypress-run.log`      | Captured by the GitHub Actions workflow                                                                          |
-| `docs/evidence/`               | Curated snapshots retained in the repository; not regenerated by the test commands                               |
-
-`npm run test:open` shows results in the runner and writes axe reports when those scans execute. It does not generate `reports/results.json` with the current configuration. Videos are not enabled.
-
-Generated reports and screenshots are ignored by Git. Report filenames are reused, and a partial run can leave accessibility JSON files from a previous run. Preserve any evidence you need before rerunning, and check each report's timestamp and scope. The full-run JSON describes only the specs executed in that run.
+Generated reports and screenshots are ignored by Git and overwritten by later runs.
 
 ## Continuous integration
 
-The [GitHub Actions workflow](.github/workflows/cypress.yml) runs on pull requests, pushes to `main`, and manual dispatch. It installs dependencies with `npm ci`, checks TypeScript and formatting, and runs the full suite in Chrome on Linux.
-
-To view a run, open the repository's [Actions page](https://github.com/Mateus-Reis/QA-CHALLENGE/actions), select the workflow run, and open the `test` job. Download `cypress-evidence` from the run's Artifacts section for the available reports, logs, and failure screenshots. Artifacts are retained for 14 days and uploaded even when tests fail. The test exit status is preserved, so the known failing assertions leave the job red.
-
-## Limitations and further work
-
-Viewport checks do not replace real-device testing, and scoped axe scans do not establish full accessibility conformance. Screen readers, other browsers, authentication, and exhaustive field combinations are outside the executed coverage. The public site and its advertising content can change independently of this repository.
-
-[IMPROVEMENTS.md](IMPROVEMENTS.md) describes further work on CI feedback, suite organization, test data, tagging, parallelization, reliability, and useful metrics.
-
-## References
-
-Page objects follow the structure requested by the challenge. These references cover the pattern, APIs, accessibility expectations, and tooling relevant to this suite.
-
-### Test design and Cypress
-
-- [Page Object, Martin Fowler](https://martinfowler.com/bliki/PageObject.html): encapsulating page interactions and separating them from test assertions.
-- [Cypress selectors](https://docs.cypress.io/app/core-concepts/best-practices#Selecting-Elements): choosing selectors and deciding when visible text belongs in an assertion.
-- [Cypress retry-ability](https://docs.cypress.io/app/core-concepts/retry-ability) and [clear](https://docs.cypress.io/api/commands/clear): retrying queries and assertions, and querying elements again between actions.
-- [Cypress test isolation](https://docs.cypress.io/app/core-concepts/test-isolation): keeping tests independent of earlier browser state.
-- [Cypress TypeScript support](https://docs.cypress.io/app/tooling/typescript-support): TypeScript configuration and Cypress command types.
-- [Cypress after:run event](https://docs.cypress.io/api/node-events/after-run-api): accessing run results to write the JSON summary.
-
-### Accessibility and keyboard interaction
-
-- [axe-core API](https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#api-name-axerun): scoped scans, WCAG tag selection, violations, and incomplete checks.
-- [WAI-ARIA modal dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/): initial focus, Tab and Shift+Tab containment, Escape, and returning focus to the opener.
-- [cypress-real-events: realPress](https://github.com/dmtrKovalenko/cypress-real-events#cyrealpress): native keyboard events and key combinations.
-
-### Formatting and CI
-
-- [Prettier configuration](https://prettier.io/docs/configuration): shared formatting settings.
-- [GitHub Actions artifacts](https://docs.github.com/en/actions/tutorials/store-and-share-data): uploading, retaining, and downloading reports and screenshots.
+The [GitHub Actions workflow](.github/workflows/cypress.yml) runs on pushes to `main`, pull requests, and manual dispatch. It installs dependencies, checks TypeScript and formatting, and runs the main suite, which decides the job status. The accessibility audit runs next as a non-blocking step, and a baseline check then fails the job only if its failures differ from the known defects: a new failure, a known defect that stops failing, or a missing report. Reports, logs, and screenshots from both suites are uploaded as the `cypress-evidence` artifact and kept for 14 days.

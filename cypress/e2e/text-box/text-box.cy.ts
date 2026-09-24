@@ -30,7 +30,7 @@ describe('Text Box', () => {
     textBoxPage.submit();
 
     textBoxPage
-      .getEmailInput()
+      .getInput('email')
       .should('have.class', 'field-error')
       .and('have.value', invalidEmailTextBoxData.email);
     textBoxPage.getSubmittedFields().should('not.exist');
@@ -40,7 +40,7 @@ describe('Text Box', () => {
     textBoxPage.fillForm(invalidEmailTextBoxData);
     textBoxPage.submit();
 
-    textBoxPage.getEmailInput().should('have.class', 'field-error');
+    textBoxPage.getInput('email').should('have.class', 'field-error');
     textBoxPage.getSubmittedFields().should('not.exist');
 
     textBoxPage.fillEmail(validTextBoxData.email);
@@ -48,7 +48,7 @@ describe('Text Box', () => {
 
     expectSubmittedValues(textBoxPage, validTextBoxData);
     textBoxPage
-      .getEmailInput()
+      .getInput('email')
       .should('not.have.class', 'field-error')
       .and('have.value', validTextBoxData.email);
   });
@@ -58,7 +58,7 @@ describe('Text Box', () => {
     textBoxPage.submit();
 
     textBoxPage
-      .getEmailInput()
+      .getInput('email')
       .should('have.value', '')
       .and('not.have.class', 'field-error');
     textBoxPage.getSubmittedFields().should('not.exist');
@@ -80,7 +80,7 @@ describe('Text Box', () => {
 
     textBoxPage.getSubmittedFields().should('not.exist');
     textBoxPage
-      .getEmailInput()
+      .getInput('email')
       .should('have.value', '')
       .and('not.have.class', 'field-error');
   });
@@ -100,7 +100,7 @@ describe('Text Box', () => {
     textBoxPage.submit();
 
     textBoxPage
-      .getEmailInput()
+      .getInput('email')
       .should('have.class', 'field-error')
       .and('have.value', invalidEmailTextBoxData.email);
 
@@ -109,7 +109,7 @@ describe('Text Box', () => {
 
     expectSubmittedValues(textBoxPage, correctedData);
     textBoxPage
-      .getEmailInput()
+      .getInput('email')
       .should('not.have.class', 'field-error')
       .and('have.value', correctedData.email);
   });
@@ -120,7 +120,7 @@ describe('Text Box', () => {
 
     expectSubmittedValues(textBoxPage, unicodeTextBoxData);
     textBoxPage
-      .getCurrentAddressInput()
+      .getInput('currentAddress')
       .should('have.value', unicodeTextBoxData.currentAddress);
   });
 

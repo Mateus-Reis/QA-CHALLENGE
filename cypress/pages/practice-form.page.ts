@@ -1,16 +1,29 @@
 import type { PracticeFormData } from '../data/practice-form';
 
+export type PracticeFormField =
+  'firstName' | 'lastName' | 'email' | 'gender' | 'mobile';
+
 export class PracticeFormPage {
   private readonly selectors = {
-    firstName: '#firstName',
-    lastName: '#lastName',
-    email: '#userEmail',
-    mobile: '#userNumber',
+    form: '#userForm',
+    fields: {
+      firstName: '#firstName',
+      lastName: '#lastName',
+      email: '#userEmail',
+      gender: 'input[name="gender"]',
+      mobile: '#userNumber',
+    },
     genderLabels: {
       Male: 'label[for="gender-radio-1"]',
       Female: 'label[for="gender-radio-2"]',
       Other: 'label[for="gender-radio-3"]',
     },
+    hobbyLabels: {
+      Sports: 'label[for="hobbies-checkbox-1"]',
+      Reading: 'label[for="hobbies-checkbox-2"]',
+      Music: 'label[for="hobbies-checkbox-3"]',
+    },
+    currentAddress: 'textarea#currentAddress',
     submit: '#submit',
     summaryDialog: '[role="dialog"]',
     summaryTitle: '#example-modal-sizes-title-lg',
@@ -23,15 +36,38 @@ export class PracticeFormPage {
   }
 
   fillForm(data: PracticeFormData): void {
-    this.fillField(this.selectors.firstName, data.firstName);
-    this.fillField(this.selectors.lastName, data.lastName);
-    this.fillField(this.selectors.email, data.email);
-    this.fillField(this.selectors.mobile, data.mobile);
+    const { fields } = this.selectors;
+
+    cy.fillField(fields.firstName, data.firstName);
+    cy.fillField(fields.lastName, data.lastName);
+    cy.fillField(fields.email, data.email);
+    cy.fillField(fields.mobile, data.mobile);
     cy.get(this.selectors.genderLabels[data.gender]).click();
+
+    for (const hobby of data.hobbies) {
+      cy.get(this.selectors.hobbyLabels[hobby]).click();
+    }
+
+    cy.fillField(this.selectors.currentAddress, data.currentAddress);
+  }
+
+  typeMobileWithKeyboard(mobile: string): void {
+    cy.get(this.selectors.fields.mobile).focus();
+    cy.realType(mobile);
   }
 
   submit(): void {
     cy.get(this.selectors.submit).click();
+  }
+
+  getForm(): Cypress.Chainable<JQuery<HTMLFormElement>> {
+    return cy.get<HTMLFormElement>(this.selectors.form);
+  }
+
+  getField(
+    field: PracticeFormField,
+  ): Cypress.Chainable<JQuery<HTMLInputElement>> {
+    return cy.get<HTMLInputElement>(this.selectors.fields[field]);
   }
 
   getSummaryDialog(): Cypress.Chainable<JQuery<HTMLElement>> {
@@ -55,13 +91,5 @@ export class PracticeFormPage {
         exactLabel,
       )
       .siblings<HTMLTableCellElement>(this.selectors.summaryValueCell);
-  }
-
-  private fillField(selector: string, value: string): void {
-    cy.get(selector).clear();
-
-    if (value !== '') {
-      cy.get(selector).type(value);
-    }
   }
 }

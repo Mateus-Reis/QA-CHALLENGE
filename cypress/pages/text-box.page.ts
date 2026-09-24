@@ -28,14 +28,14 @@ export class TextBoxPage {
   }
 
   fillForm(data: TextBoxData): void {
-    this.fillField(this.selectors.fullName, data.fullName);
-    this.fillField(this.selectors.email, data.email);
-    this.fillField(this.selectors.currentAddress, data.currentAddress);
-    this.fillField(this.selectors.permanentAddress, data.permanentAddress);
+    cy.fillField(this.selectors.fullName, data.fullName);
+    cy.fillField(this.selectors.email, data.email);
+    cy.fillField(this.selectors.currentAddress, data.currentAddress);
+    cy.fillField(this.selectors.permanentAddress, data.permanentAddress);
   }
 
   fillEmail(email: string): void {
-    this.fillField(this.selectors.email, email);
+    cy.fillField(this.selectors.email, email);
   }
 
   submit(): void {
@@ -54,14 +54,6 @@ export class TextBoxPage {
     return cy.get<HTMLButtonElement>(this.selectors.submit);
   }
 
-  getEmailInput(): Cypress.Chainable<JQuery<HTMLInputElement>> {
-    return cy.get<HTMLInputElement>(this.selectors.email);
-  }
-
-  getCurrentAddressInput(): Cypress.Chainable<JQuery<HTMLTextAreaElement>> {
-    return cy.get<HTMLTextAreaElement>(this.selectors.currentAddress);
-  }
-
   getSubmittedFields(): Cypress.Chainable<JQuery<HTMLParagraphElement>> {
     return cy.get(this.selectors.output).find(this.selectors.submittedFields);
   }
@@ -76,13 +68,5 @@ export class TextBoxPage {
     return this.getSubmittedField('fullName').find(
       this.selectors.submittedNameBoldElements,
     );
-  }
-
-  private fillField(selector: string, value: string): void {
-    cy.get(selector).clear();
-
-    if (value !== '') {
-      cy.get(selector).type(value);
-    }
   }
 }
