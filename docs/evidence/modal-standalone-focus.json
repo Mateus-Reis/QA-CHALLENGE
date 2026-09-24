@@ -1,0 +1,229 @@
+{
+  "browser": "153.0.8010.53",
+  "evidence": [
+    {
+      "size": "Small",
+      "direction": "Tab",
+      "index": 0,
+      "containmentTimedOut": false,
+      "hasFocus": true,
+      "insideDialog": true,
+      "active": {
+        "tag": "DIV",
+        "id": "",
+        "role": "dialog",
+        "text": "Small ModalThis is a small modal. It has very less contentClose"
+      }
+    },
+    {
+      "size": "Small",
+      "direction": "Tab",
+      "index": 1,
+      "containmentTimedOut": false,
+      "hasFocus": true,
+      "insideDialog": true,
+      "active": {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": ""
+      }
+    },
+    {
+      "size": "Small",
+      "direction": "Tab",
+      "index": 2,
+      "containmentTimedOut": false,
+      "hasFocus": true,
+      "insideDialog": true,
+      "active": {
+        "tag": "BUTTON",
+        "id": "closeSmallModal",
+        "role": null,
+        "text": "Close"
+      }
+    },
+    {
+      "size": "Small",
+      "direction": "Tab",
+      "index": 3,
+      "containmentTimedOut": false,
+      "hasFocus": true,
+      "insideDialog": true,
+      "active": {
+        "tag": "DIV",
+        "id": "",
+        "role": "dialog",
+        "text": "Small ModalThis is a small modal. It has very less contentClose"
+      }
+    },
+    {
+      "size": "Small",
+      "direction": "Shift+Tab",
+      "index": 0,
+      "containmentTimedOut": false,
+      "hasFocus": true,
+      "insideDialog": true,
+      "active": {
+        "tag": "DIV",
+        "id": "",
+        "role": "dialog",
+        "text": "Small ModalThis is a small modal. It has very less contentClose"
+      }
+    },
+    {
+      "size": "Small",
+      "direction": "Shift+Tab",
+      "index": 1,
+      "containmentTimedOut": false,
+      "hasFocus": true,
+      "insideDialog": true,
+      "active": {
+        "tag": "DIV",
+        "id": "",
+        "role": "dialog",
+        "text": "Small ModalThis is a small modal. It has very less contentClose"
+      }
+    },
+    {
+      "size": "Small",
+      "direction": "Shift+Tab",
+      "index": 2,
+      "containmentTimedOut": false,
+      "hasFocus": true,
+      "insideDialog": true,
+      "active": {
+        "tag": "DIV",
+        "id": "",
+        "role": "dialog",
+        "text": "Small ModalThis is a small modal. It has very less contentClose"
+      }
+    },
+    {
+      "size": "Small",
+      "direction": "Shift+Tab",
+      "index": 3,
+      "containmentTimedOut": false,
+      "hasFocus": true,
+      "insideDialog": true,
+      "active": {
+        "tag": "DIV",
+        "id": "",
+        "role": "dialog",
+        "text": "Small ModalThis is a small modal. It has very less contentClose"
+      }
+    },
+    {
+      "size": "Large",
+      "direction": "Tab",
+      "index": 0,
+      "containmentTimedOut": false,
+      "hasFocus": true,
+      "insideDialog": true,
+      "active": {
+        "tag": "DIV",
+        "id": "",
+        "role": "dialog",
+        "text": "Large ModalLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum ha"
+      }
+    },
+    {
+      "size": "Large",
+      "direction": "Tab",
+      "index": 1,
+      "containmentTimedOut": false,
+      "hasFocus": true,
+      "insideDialog": true,
+      "active": {
+        "tag": "BUTTON",
+        "id": "",
+        "role": null,
+        "text": ""
+      }
+    },
+    {
+      "size": "Large",
+      "direction": "Tab",
+      "index": 2,
+      "containmentTimedOut": false,
+      "hasFocus": true,
+      "insideDialog": true,
+      "active": {
+        "tag": "BUTTON",
+        "id": "closeLargeModal",
+        "role": null,
+        "text": "Close"
+      }
+    },
+    {
+      "size": "Large",
+      "direction": "Tab",
+      "index": 3,
+      "containmentTimedOut": false,
+      "hasFocus": true,
+      "insideDialog": true,
+      "active": {
+        "tag": "DIV",
+        "id": "",
+        "role": "dialog",
+        "text": "Large ModalLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum ha"
+      }
+    },
+    {
+      "size": "Large",
+      "direction": "Shift+Tab",
+      "index": 0,
+      "containmentTimedOut": false,
+      "hasFocus": true,
+      "insideDialog": true,
+      "active": {
+        "tag": "DIV",
+        "id": "",
+        "role": "dialog",
+        "text": "Large ModalLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum ha"
+      }
+    },
+    {
+      "size": "Large",
+      "direction": "Shift+Tab",
+      "index": 1,
+      "containmentTimedOut": true,
+      "hasFocus": true,
+      "insideDialog": false,
+      "active": {
+        "tag": "IFRAME",
+        "id": "google_ads_iframe_/21849154601,22343295815/Ad.Plus-970x250-2_0",
+        "role": null,
+        "text": ""
+      }
+    },
+    {
+      "size": "Large",
+      "direction": "Shift+Tab",
+      "index": 2,
+      "containmentTimedOut": true,
+      "hasFocus": true,
+      "insideDialog": false,
+      "active": {
+        "tag": "IFRAME",
+        "id": "google_ads_iframe_/21849154601,22343295815/Ad.Plus-970x250-2_0",
+        "role": null,
+        "text": ""
+      }
+    },
+    {
+      "size": "Large",
+      "direction": "Shift+Tab",
+      "index": 3,
+      "containmentTimedOut": true,
+      "hasFocus": true,
+      "insideDialog": false,
+      "active": {
+        "tag": "IFRAME",
+        "id": "google_ads_iframe_/21849154601,22343295815/Ad.Plus-970x250-2_0",
+        "role": null,
+        "text": ""
+      }
+    }
+  ]
+}
