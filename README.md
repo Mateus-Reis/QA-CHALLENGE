@@ -139,3 +139,27 @@ To view a run, open the repository's [Actions page](https://github.com/Mateus-Re
 Viewport checks do not replace real-device testing, and scoped axe scans do not establish full accessibility conformance. Screen readers, other browsers, authentication, and exhaustive field combinations are outside the executed coverage. The public site and its advertising content can change independently of this repository.
 
 [IMPROVEMENTS.md](IMPROVEMENTS.md) describes further work on CI feedback, suite organization, test data, tagging, parallelization, reliability, and useful metrics.
+
+## References
+
+Page objects follow the structure requested by the challenge. These references cover the pattern, APIs, accessibility expectations, and tooling relevant to this suite.
+
+### Test design and Cypress
+
+- [Page Object, Martin Fowler](https://martinfowler.com/bliki/PageObject.html): encapsulating page interactions and separating them from test assertions.
+- [Cypress selectors](https://docs.cypress.io/app/core-concepts/best-practices#Selecting-Elements): choosing selectors and deciding when visible text belongs in an assertion.
+- [Cypress retry-ability](https://docs.cypress.io/app/core-concepts/retry-ability) and [clear](https://docs.cypress.io/api/commands/clear): retrying queries and assertions, and querying elements again between actions.
+- [Cypress test isolation](https://docs.cypress.io/app/core-concepts/test-isolation): keeping tests independent of earlier browser state.
+- [Cypress TypeScript support](https://docs.cypress.io/app/tooling/typescript-support): TypeScript configuration and Cypress command types.
+- [Cypress after:run event](https://docs.cypress.io/api/node-events/after-run-api): accessing run results to write the JSON summary.
+
+### Accessibility and keyboard interaction
+
+- [axe-core API](https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#api-name-axerun): scoped scans, WCAG tag selection, violations, and incomplete checks.
+- [WAI-ARIA modal dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/): initial focus, Tab and Shift+Tab containment, Escape, and returning focus to the opener.
+- [cypress-real-events: realPress](https://github.com/dmtrKovalenko/cypress-real-events#cyrealpress): native keyboard events and key combinations.
+
+### Formatting and CI
+
+- [Prettier configuration](https://prettier.io/docs/configuration): shared formatting settings.
+- [GitHub Actions artifacts](https://docs.github.com/en/actions/tutorials/store-and-share-data): uploading, retaining, and downloading reports and screenshots.
