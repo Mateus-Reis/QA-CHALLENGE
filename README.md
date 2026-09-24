@@ -96,9 +96,9 @@ Recorded locally on September 24, 2026 in Chrome 153 on macOS:
 | Suite               | Tests | Passed | Failed | Pending |
 | ------------------- | ----: | -----: | -----: | ------: |
 | Main (`npm test`)   |    26 |     26 |      0 |       0 |
-| Accessibility audit |    17 |     10 |      5 |       2 |
+| Accessibility audit |    17 |     10 |      7 |       0 |
 
-The main suite passed in two consecutive runs without retries. The five accessibility failures are real defects (TB-01, SM-01, SM-02); the two pending tests are quarantined while MD-01 is investigated. Details are in [DEFECTS.md](DEFECTS.md), and the terminal output of the last runs is in [main-suite-run.txt](docs/evidence/main-suite-run.txt) and [accessibility-suite-run.txt](docs/evidence/accessibility-suite-run.txt).
+The main suite passed in two consecutive runs without retries. Five accessibility failures are confirmed defects (TB-01, SM-01, SM-02). The other two are MD-01, a focus behavior seen only inside the Cypress runner whose cause is still unresolved. Details are in [DEFECTS.md](DEFECTS.md), and the terminal output of the last runs is in [main-suite-run.txt](docs/evidence/main-suite-run.txt) and [accessibility-suite-run.txt](docs/evidence/accessibility-suite-run.txt).
 
 [SUMMARY.md](SUMMARY.md) covers the approach, flakiness handling, and trade-offs. [IMPROVEMENTS.md](IMPROVEMENTS.md) has recommendations for CI, suite organization, test data, and metrics.
 

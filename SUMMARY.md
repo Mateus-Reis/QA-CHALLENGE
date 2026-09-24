@@ -13,15 +13,15 @@ Specs are split into two suites. The main suite (`npm test`) holds the functiona
 | Suite               | Tests | Passed | Failed | Pending |
 | ------------------- | ----: | -----: | -----: | ------: |
 | Main                |    26 |     26 |      0 |       0 |
-| Accessibility audit |    17 |     10 |      5 |       2 |
+| Accessibility audit |    17 |     10 |      7 |       0 |
 
-The main suite passed in two consecutive runs (25 s and 26 s) without any retry. The five audit failures map to three defects: Text Box labels (TB-01), Select Menu names (SM-01), and Select Menu heading contrast (SM-02). The two pending tests are quarantined (MD-01). Evidence: [main run](docs/evidence/main-suite-run.txt), [audit run](docs/evidence/accessibility-suite-run.txt), [defect report](DEFECTS.md).
+The main suite passed in two consecutive runs (25 s and 26 s) without any retry. Five audit failures map to three defects: Text Box labels (TB-01), Select Menu names (SM-01), and Select Menu heading contrast (SM-02). The other two are the modal focus tests (MD-01). Evidence: [main run](docs/evidence/main-suite-run.txt), [audit run](docs/evidence/accessibility-suite-run.txt), [defect report](DEFECTS.md).
 
 ## Flakiness and how it is handled
 
 - **Third-party ads.** In 1 of 8 CI runs, the Text Box responsive test at 390 x 844 failed with a 16 px horizontal scroll caused by a Google video ad ([screenshot](docs/evidence/text-box-responsive-ad-overflow.png)). The known Google ad and ad-verification hosts are now blocked with `blockHosts`. The main suite passed locally with the block in place; CI runs after the next push will show whether the flake is gone.
 - **Transient failures.** The main suite retries once in run mode. The results JSON keeps every attempt, so a test that passes only on retry shows up as flaky instead of disappearing. The audit does not retry, because its known failures are deterministic.
-- **Unresolved focus behavior.** Forward Tab navigation leaving the modal has only been observed inside the Cypress runner, and blocking ads did not change it. Those two tests are skipped with a reference to MD-01 rather than left failing without a known cause.
+- **Unresolved focus behavior.** Forward Tab navigation leaving the modal has only been observed inside the Cypress runner, and blocking ads did not change it. Those two tests stay enabled and are listed in the CI baseline under MD-01, so the behavior remains visible without failing the build.
 - **Waits.** There are no fixed waits. Assertions retry, and focus and dialog checks first wait for CSS transitions to finish.
 
 ## Insights and trade-offs

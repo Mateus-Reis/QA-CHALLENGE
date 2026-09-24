@@ -41,9 +41,7 @@ describe('Modal Dialogs accessibility', () => {
         modalDialogsPage.getOpenButton(size).should('have.focus');
       });
 
-      // Quarantined: fails only inside the Cypress runner and the cause is
-      // unresolved. See MD-01 in DEFECTS.md.
-      it.skip('keeps forward Tab navigation inside the dialog with visible focus', () => {
+      it('keeps forward Tab navigation inside the dialog with visible focus', () => {
         const unfocusedShadows: Record<string, string> = {};
 
         modalDialogsPage.getDialog().then(($dialog) => {

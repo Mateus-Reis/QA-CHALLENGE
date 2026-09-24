@@ -17,6 +17,10 @@ const knownFailures: Record<string, string> = {
     'SM-01, SM-02',
   'Select Menu accessibility > has no WCAG 2.1 A or AA axe violations after selecting values':
     'SM-01',
+  'Modal Dialogs accessibility > small modal > keeps forward Tab navigation inside the dialog with visible focus':
+    'MD-01',
+  'Modal Dialogs accessibility > large modal > keeps forward Tab navigation inside the dialog with visible focus':
+    'MD-01',
 };
 
 const report: AccessibilityReport = JSON.parse(

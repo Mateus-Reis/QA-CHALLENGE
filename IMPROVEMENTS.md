@@ -22,8 +22,8 @@ Prefer stable IDs and scoped roles. Ask application developers for explicit test
 
 Supplement axe scans with screen-reader testing, focus visibility and contrast review, and error-announcement checks. Viewport resizing does not replace real mobile devices or touch input. Expand the browser matrix according to product usage rather than duplicating every case.
 
-Keep third-party hosts blocked unless a test targets them. Treat any test that passes only on retry as flaky: record it, investigate it, and do not raise the retry count to hide it. Quarantine a test only with a linked defect, as done for MD-01, and review quarantined tests on a fixed schedule.
+Keep third-party hosts blocked unless a test targets them. Treat any test that passes only on retry as flaky: record it, investigate it, and do not raise the retry count to hide it. Keep an unexplained failure running and linked to its defect, as done for MD-01, instead of skipping it, and review the known failures on a fixed schedule.
 
 ## Metrics
 
-Track executed, passed, failed, pending, and skipped tests per suite; first-attempt pass rate and tests that needed a retry; failure causes (application defect, automation error, environment); total and slowest-spec duration; the number and age of quarantined tests; defect recurrence; and time to investigate failures. A pass rate alone does not describe coverage or accessibility conformance.
+Track executed, passed, failed, pending, and skipped tests per suite; first-attempt pass rate and tests that needed a retry; failure causes (application defect, automation error, environment); total and slowest-spec duration; the number and age of known failures in the baseline; defect recurrence; and time to investigate failures. A pass rate alone does not describe coverage or accessibility conformance.

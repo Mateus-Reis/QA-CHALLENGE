@@ -24,19 +24,43 @@
 
   Modal Dialogs accessibility
     small modal
-      ✓ moves focus into the dialog and returns it to the opener after Escape (868ms)
-      - keeps forward Tab navigation inside the dialog with visible focus
-      ✓ keeps reverse Shift+Tab navigation inside the dialog (590ms)
-      ✓ has no WCAG 2.1 A or AA axe violations while open (560ms)
+      ✓ moves focus into the dialog and returns it to the opener after Escape (844ms)
+      1) keeps forward Tab navigation inside the dialog with visible focus
+      ✓ keeps reverse Shift+Tab navigation inside the dialog (648ms)
+      ✓ has no WCAG 2.1 A or AA axe violations while open (572ms)
     large modal
-      ✓ moves focus into the dialog and returns it to the opener after Escape (629ms)
-      - keeps forward Tab navigation inside the dialog with visible focus
-      ✓ keeps reverse Shift+Tab navigation inside the dialog (576ms)
-      ✓ has no WCAG 2.1 A or AA axe violations while open (507ms)
+      ✓ moves focus into the dialog and returns it to the opener after Escape (622ms)
+      2) keeps forward Tab navigation inside the dialog with visible focus
+      ✓ keeps reverse Shift+Tab navigation inside the dialog (566ms)
+      ✓ has no WCAG 2.1 A or AA axe violations while open (580ms)
 
 
-  6 passing (4s)
-  2 pending
+  6 passing (22s)
+  2 failing
+
+  1) Modal Dialogs accessibility
+       small modal
+         keeps forward Tab navigation inside the dialog with visible focus:
+     AssertionError: Timed out retrying after 8000ms: focus remains inside the dialog; active=BODY#; document.hasFocus=true: expected false to equal true
+      at Context.expectFocusInsideDialog (webpack://qa-challenge/./cypress/e2e/modal-dialogs/modal-dialogs-accessibility.cy.ts:12:7)
+      at <unknown> (https://demoqa.com/__cypress/runner/cypress_runner.js:120158:17)
+      at tryCatcher (https://demoqa.com/__cypress/runner/cypress_runner.js:1780:23)
+      at Promise.attempt.Promise.try (https://demoqa.com/__cypress/runner/cypress_runner.js:4288:29)
+      at Context.shouldFnWithCallback (https://demoqa.com/__cypress/runner/cypress_runner.js:120155:66)
+      at Context.shouldFn (https://demoqa.com/__cypress/runner/cypress_runner.js:120198:37)
+
+  2) Modal Dialogs accessibility
+       large modal
+         keeps forward Tab navigation inside the dialog with visible focus:
+     AssertionError: Timed out retrying after 8000ms: focus remains inside the dialog; active=BODY#; document.hasFocus=true: expected false to equal true
+      at Context.expectFocusInsideDialog (webpack://qa-challenge/./cypress/e2e/modal-dialogs/modal-dialogs-accessibility.cy.ts:12:7)
+      at <unknown> (https://demoqa.com/__cypress/runner/cypress_runner.js:120158:17)
+      at tryCatcher (https://demoqa.com/__cypress/runner/cypress_runner.js:1780:23)
+      at Promise.attempt.Promise.try (https://demoqa.com/__cypress/runner/cypress_runner.js:4288:29)
+      at Context.shouldFnWithCallback (https://demoqa.com/__cypress/runner/cypress_runner.js:120155:66)
+      at Context.shouldFn (https://demoqa.com/__cypress/runner/cypress_runner.js:120198:37)
+
+
 
 
   (Results)
@@ -44,14 +68,24 @@
   ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
   │ Tests:        8                                                                                │
   │ Passing:      6                                                                                │
-  │ Failing:      0                                                                                │
-  │ Pending:      2                                                                                │
+  │ Failing:      2                                                                                │
+  │ Pending:      0                                                                                │
   │ Skipped:      0                                                                                │
-  │ Screenshots:  0                                                                                │
+  │ Screenshots:  2                                                                                │
   │ Video:        false                                                                            │
-  │ Duration:     3 seconds                                                                        │
+  │ Duration:     21 seconds                                                                       │
   │ Spec Ran:     modal-dialogs/modal-dialogs-accessibility.cy.ts                                  │
   └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  cypress/screenshots/accessibility/modal-dialogs/modal-dialogs-accessibility.cy.t     (1280x633)
+     s/Modal Dialogs accessibility -- small modal -- keeps forward Tab navigation ins               
+     ide the dialog with visible focus (failed).png                                                 
+  -  cypress/screenshots/accessibility/modal-dialogs/modal-dialogs-accessibility.cy.t     (1280x633)
+     s/Modal Dialogs accessibility -- large modal -- keeps forward Tab navigation ins               
+     ide the dialog with visible focus (failed).png                                                 
 
 
 ────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -60,8 +94,8 @@
 
 
   Select Menu accessibility
-    ✓ selects a grouped option with the keyboard and preserves it when Escape dismisses the list (530ms)
-    ✓ moves between controls with Tab and Shift+Tab and displays custom focus indicators (655ms)
+    ✓ selects a grouped option with the keyboard and preserves it when Escape dismisses the list (448ms)
+    ✓ moves between controls with Tab and Shift+Tab and displays custom focus indicators (663ms)
     1) has no WCAG 2.1 A or AA axe violations with a grouped combobox open
     2) has no WCAG 2.1 A or AA axe violations after selecting values
 
@@ -118,8 +152,8 @@
 
   Text Box accessibility
     1) associates visible labels with the form fields
-    ✓ submits using Tab and Enter with a focus indicator on each control (4043ms)
-    ✓ moves backwards through the form with Shift+Tab (328ms)
+    ✓ submits using Tab and Enter with a focus indicator on each control (4060ms)
+    ✓ moves backwards through the form with Shift+Tab (304ms)
     2) has no WCAG 2.1 A or AA axe violations in the initial form
     3) has no WCAG 2.1 A or AA axe violations after submission
 
@@ -185,7 +219,7 @@
 
        Spec                                              Tests  Passing  Failing  Pending  Skipped  
   ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
-  │ ✔  modal-dialogs/modal-dialogs-accessi      00:03        8        6        -        2        - │
+  │ ✖  modal-dialogs/modal-dialogs-accessi      00:21        8        6        2        -        - │
   │    bility.cy.ts                                                                                │
   ├────────────────────────────────────────────────────────────────────────────────────────────────┤
   │ ✖  select-menu/select-menu-accessibili      00:02        4        2        2        -        - │
@@ -194,5 +228,5 @@
   │ ✖  text-box/text-box-accessibility.cy.      00:14        5        2        3        -        - │
   │    ts                                                                                          │
   └────────────────────────────────────────────────────────────────────────────────────────────────┘
-    ✖  2 of 3 failed (67%)                      00:20       17       10        5        2        -  
+    ✖  3 of 3 failed (100%)                     00:37       17       10        7        -        -  
 

@@ -2,7 +2,7 @@
 
 Observed on 2026-09-23 against the public DemoQA application using Chrome on macOS. These findings describe the observed version of the site. Severity describes user impact; priority is a proposed order for remediation.
 
-The accessibility audit (`npm run test:a11y`) reproduces TB-01, SM-01, and SM-02 as five failing tests; a [GitHub Actions run on 2026-09-24](https://github.com/Mateus-Reis/QA-CHALLENGE/actions/runs/35977214462/job/107560415196), made before the suites were split, reproduced them in Chrome on Linux. The MD-01 tests are quarantined. The invalid-email feedback finding and standalone focus investigation below are based on local evidence.
+The accessibility audit (`npm run test:a11y`) reproduces TB-01, SM-01, and SM-02 as five failing tests and MD-01 as two more; a [GitHub Actions run on 2026-09-24](https://github.com/Mateus-Reis/QA-CHALLENGE/actions/runs/35977214462/job/107560415196), made before the suites were split, reproduced them in Chrome on Linux. The invalid-email feedback finding and standalone focus investigation below are based on local evidence.
 
 ## TB-01: Text Box labels are not associated with their fields
 
@@ -81,13 +81,13 @@ The accessibility audit (`npm run test:a11y`) reproduces TB-01, SM-01, and SM-02
 ## MD-01: Forward focus containment fails in the Cypress runner
 
 **URL:** <https://demoqa.com/modal-dialogs>  
-**Status:** Observed failure; application versus runner influence remains unresolved. The two tests are quarantined.  
+**Status:** Observed failure; application versus runner influence remains unresolved.  
 **Provisional severity:** Medium. Keyboard focus leaves the open dialog instead of cycling through its controls.  
 **Priority:** P2. Isolate the environment-dependent behavior before selecting an application or automation fix.
 
 **Steps to reproduce in Cypress**
 
-1. In `cypress/e2e/modal-dialogs/modal-dialogs-accessibility.cy.ts`, change the forward Tab test from `it.skip` to `it`, then run `npm run test:a11y -- --spec cypress/e2e/modal-dialogs/modal-dialogs-accessibility.cy.ts` in Chrome.
+1. Run `npm run test:a11y -- --spec cypress/e2e/modal-dialogs/modal-dialogs-accessibility.cy.ts` in Chrome.
 2. Open either modal and establish focus on the header Close button.
 3. Press Tab to reach the footer Close button, then Tab again.
 4. Check whether the active element remains inside the dialog.
@@ -98,7 +98,7 @@ The accessibility audit (`npm run test:a11y`) reproduces TB-01, SM-01, and SM-02
 
 **Investigation boundary:** In a separate Chrome session outside Cypress, the forward sequence recovered to the dialog container during a condition-based wait. A reverse sequence in Large Modal instead remained on an advertising iframe outside the dialog. These are different observations, not identical standalone reproduction of the runner failure. Do not label this as an axe violation or a confirmed application-only cause. Initial focus and focus return after Escape passed separately.
 
-**Evidence:** [Small modal runner state](docs/evidence/modal-small-focus.json), [large modal runner state](docs/evidence/modal-large-focus.json), and [standalone comparison](docs/evidence/modal-standalone-focus.json). The tests are skipped rather than left failing, so an unexplained runner discrepancy is not reported as a confirmed defect; remove the skip once the cause is isolated.
+**Evidence:** [Small modal runner state](docs/evidence/modal-small-focus.json), [large modal runner state](docs/evidence/modal-large-focus.json), and [standalone comparison](docs/evidence/modal-standalone-focus.json). The two tests stay enabled and are listed as known failures in the CI baseline, so the discrepancy stays visible without failing the build. Remove them from the baseline once the cause is isolated and fixed.
 
 ## Automated checks requiring manual review
 
