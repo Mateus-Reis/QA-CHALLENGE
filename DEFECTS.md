@@ -2,7 +2,7 @@
 
 Observed on 2026-09-23 against the public DemoQA application using Chrome on macOS. These findings describe the observed version of the site. Severity describes user impact; priority is a proposed order for remediation.
 
-The accessibility audit (`npm run test:a11y`) reproduces TB-01, SM-01, and SM-02 as five failing tests and MD-01 as two more; a [GitHub Actions run on 2026-09-24](https://github.com/Mateus-Reis/QA-CHALLENGE/actions/runs/35977214462/job/107560415196), made before the suites were split, reproduced them in Chrome on Linux. The invalid-email feedback finding and standalone focus investigation below are based on local evidence.
+The accessibility audit (`npm run test:a11y`) reproduces TB-01, SM-01, and SM-02 as five failing tests and MD-01 as two more, locally on macOS and in the [latest GitHub Actions run](https://github.com/Mateus-Reis/QA-CHALLENGE/actions/runs/36154739471) on Linux. The invalid-email feedback finding and standalone focus investigation below are based on local evidence.
 
 ## TB-01: Text Box labels are not associated with their fields
 

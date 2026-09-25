@@ -91,7 +91,7 @@ Specs describe expected behavior; page objects own selectors and interactions. E
 
 ## Results
 
-Recorded locally on September 24, 2026 in Chrome 153 on macOS:
+Recorded locally on September 24, 2026 in Chrome 153 on macOS, with the same results in [GitHub Actions on Linux](https://github.com/Mateus-Reis/QA-CHALLENGE/actions/runs/36154739471) on September 25:
 
 | Suite               | Tests | Passed | Failed | Pending |
 | ------------------- | ----: | -----: | -----: | ------: |

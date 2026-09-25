@@ -1,6 +1,6 @@
 # Test summary
 
-**Verified:** 2026-09-24 locally in Chrome 153 on macOS. Earlier GitHub Actions runs on Linux used the previous version of the suite; the updated workflow runs both suites on the next push.
+**Verified:** 2026-09-24 locally in Chrome 153 on macOS, and 2026-09-25 in [GitHub Actions](https://github.com/Mateus-Reis/QA-CHALLENGE/actions/runs/36154739471) in Chrome 153 on Linux, with the same results.
 
 ## Approach
 
@@ -19,7 +19,7 @@ The main suite passed in two consecutive runs (25 s and 26 s) without any retry.
 
 ## Flakiness and how it is handled
 
-- **Third-party ads.** In 1 of 8 CI runs, the Text Box responsive test at 390 x 844 failed with a 16 px horizontal scroll caused by a Google video ad ([screenshot](docs/evidence/text-box-responsive-ad-overflow.png)). The known Google ad and ad-verification hosts are now blocked with `blockHosts`. The main suite passed locally with the block in place; CI runs after the next push will show whether the flake is gone.
+- **Third-party ads.** In 1 of 8 CI runs, the Text Box responsive test at 390 x 844 failed with a 16 px horizontal scroll caused by a Google video ad ([screenshot](docs/evidence/text-box-responsive-ad-overflow.png)). The known Google ad and ad-verification hosts are now blocked with `blockHosts`. Since then, the main suite has passed without retries locally and in both CI runs on `main` ([latest](https://github.com/Mateus-Reis/QA-CHALLENGE/actions/runs/36154739471)). Two runs cannot prove the flake is gone, so the retry and the attempt history stay in place.
 - **Transient failures.** The main suite retries once in run mode. The results JSON keeps every attempt, so a test that passes only on retry shows up as flaky instead of disappearing. The audit does not retry, because its known failures are deterministic.
 - **Unresolved focus behavior.** Forward Tab navigation leaving the modal has only been observed inside the Cypress runner, and blocking ads did not change it. Those two tests stay enabled and are listed in the CI baseline under MD-01, so the behavior remains visible without failing the build.
 - **Waits.** There are no fixed waits. Assertions retry, and focus and dialog checks first wait for CSS transitions to finish.
