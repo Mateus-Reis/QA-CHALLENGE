@@ -32,8 +32,6 @@ describe('Select Menu accessibility', () => {
 
     selectMenuPage.getListbox().should('be.visible');
 
-    // react-select announces the focused option through its live region on
-    // Apple platforms and through aria-activedescendant everywhere else.
     if (Cypress.platform === 'darwin') {
       selectMenuPage
         .getFocusedAnnouncement('grouped')
